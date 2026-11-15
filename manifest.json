@@ -1,5 +1,5 @@
 {
-  "name": "EV Station ROI Calculator",
+  "name": "CLEANLINE EV Station ROI Calculator",
   "short_name": "EV ROI",
   "description": "เครื่องมือวิเคราะห์จุดคุ้มทุน EV Station",
   "start_url": "./index.html",
