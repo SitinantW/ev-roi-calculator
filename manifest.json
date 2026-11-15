@@ -1,0 +1,24 @@
+{
+  "name": "EV Station ROI Calculator",
+  "short_name": "EV ROI",
+  "description": "เครื่องมือวิเคราะห์จุดคุ้มทุน EV Station",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f1f5f9",
+  "theme_color": "#0f766e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://w3.org' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%230f766e'/%3E%3Cpath d='M288 80L144 288h112l-32 144 144-208H256l32-144z' fill='%23ffffff'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://w3.org' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%230f766e'/%3E%3Cpath d='M288 80L144 288h112l-32 144 144-208H256l32-144z' fill='%23ffffff'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

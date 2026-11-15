@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="EV ROI">
+  <link rel="manifest" href="manifest.json">
+  <title>EV Station ROI Calculator</title>
+  <style>
+    :root {
+      --primary: #0f766e;
+      --primary-hover: #115e59;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #cbd5e1;
+      --accent-bg: #f0fdfa;
+    }
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { margin: 0; padding: 16px; background: var(--bg); color: var(--text); }
+    .container { max-width: 800px; margin: 0 auto; background: var(--card); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    h1 { font-size: 1.5rem; margin: 0 0 4px; color: var(--primary); }
+    h2 { font-size: 1.1rem; margin: 0 0 16px; color: var(--muted); font-weight: 500; }
+    h3 { font-size: 1.05rem; margin: 20px 0 12px; border-bottom: 2px solid var(--bg); padding-bottom: 6px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    .form-group { display: flex; flex-direction: column; }
+    label { font-size: 0.875rem; font-weight: 600; margin-bottom: 4px; }
+    input { padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; outline: none; }
+    input:focus { border-color: var(--primary); }
+    input[readonly] { background: var(--accent-bg); font-weight: bold; color: var(--primary); border-color: #99f6e4; }
+    button { width: 100%; margin-top: 20px; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+    button:hover { background: var(--primary-hover); }
+    .table-wrapper { overflow-x: auto; margin-top: 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: right; }
+    th, td { padding: 10px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    th { background: var(--bg); font-weight: 600; text-align: right; }
+    th:first-child, td:first-child { text-align: center; font-weight: bold; }
+    .profit-pos { color: #059669; font-weight: 600; }
+    .profit-neg { color: #dc2626; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>EV Station ROI Calculator</h1>
+    <h2>เครื่องมือวิเคราะห์จุดคุ้มทุน EV Station</h2>
+
+    <h3>ข้อมูลเครื่องชาร์จ</h3>
+    <div class="grid">
+      <div class="form-group">
+        <label for="power">กำลังไฟฟ้า (kW)</label>
+        <input type="number" id="power" value="22" step="any">
+      </div>
+      <div class="form-group">
+        <label for="equipCost">ราคาเครื่อง (บาท)</label>
+        <input type="number" id="equipCost" value="150000" step="any">
+      </div>
+      <div class="form-group">
+        <label for="installCost">ค่าติดตั้ง (บาท)</label>
+        <input type="number" id="installCost" value="100" step="any">
+      </div>
+      <div class="form-group">
+        <label for="totalInvest">ยอดรวมเงินลงทุน (บาท)</label>
+        <input type="text" id="totalInvest" value="150,100" readonly>
+      </div>
+    </div>
+
+    <h3>โครงสร้างราคา & แพลตฟอร์ม</h3>
+    <div class="grid">
+      <div class="form-group">
+        <label for="elecCost">ต้นทุนไฟ (บาท/หน่วย)</label>
+        <input type="number" id="elecCost" value="5" step="any">
+      </div>
+      <div class="form-group">
+        <label for="sellPrice">ราคาขาย (บาท/หน่วย)</label>
+        <input type="number" id="sellPrice" value="9" step="any">
+      </div>
+      <div class="form-group">
+        <label for="platformFee">ค่า Platform (บาท/เดือน)</label>
+        <input type="number" id="platformFee" value="200" step="any">
+      </div>
+      <div class="form-group">
+        <label for="mpayFee">ค่าธรรมเนียม mPAY Fee (%)</label>
+        <input type="number" id="mpayFee" value="1" step="any">
+      </div>
+    </div>
+
+    <button onclick="calculateROI()">คำนวณและวิเคราะห์ผลลัพธ์</button>
+
+    <h3>📊 ตารางวิเคราะห์รายได้และจุดคุ้มทุน (คิดที่ 30 วัน/เดือน)</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ชั่วโมง/วัน</th>
+            <th>หน่วยไฟ/เดือน</th>
+            <th>รายได้ (บาท)</th>
+            <th>หัก mPAY Fee</th>
+            <th>กำไรสุทธิ/เดือน</th>
+            <th>คืนทุน (ปี)</th>
+          </tr>
+        </thead>
+        <tbody id="resultBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const fmtNum = (n, dec = 0) => n.toLocaleString('th-TH', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+
+    function calculateROI() {
+      const power = parseFloat(document.getElementById('power').value) || 0;
+      const equipCost = parseFloat(document.getElementById('equipCost').value) || 0;
+      const installCost = parseFloat(document.getElementById('installCost').value) || 0;
+      const elecCost = parseFloat(document.getElementById('elecCost').value) || 0;
+      const sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
+      const platformFee = parseFloat(document.getElementById('platformFee').value) || 0;
+      const mpayRate = (parseFloat(document.getElementById('mpayFee').value) || 0) / 100;
+
+      const totalInvest = equipCost + installCost;
+      document.getElementById('totalInvest').value = fmtNum(totalInvest, 0);
+
+      const tbody = document.getElementById('resultBody');
+      tbody.innerHTML = '';
+
+      for (let hrs = 1; hrs <= 12; hrs++) {
+        const units = power * hrs * 30;
+        const revenue = units * sellPrice;
+        const mpayDeduction = revenue * mpayRate;
+        const totalElecCost = units * elecCost;
+        const netProfit = revenue - mpayDeduction - totalElecCost - platformFee;
+        const paybackYears = netProfit > 0 ? (totalInvest / (netProfit * 12)) : null;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${hrs}</td>
+          <td>${fmtNum(units, 0)}</td>
+          <td>${fmtNum(revenue, 2)}</td>
+          <td>${fmtNum(mpayDeduction, 2)}</td>
+          <td class="${netProfit >= 0 ? 'profit-pos' : 'profit-neg'}">${fmtNum(netProfit, 2)}</td>
+          <td>${paybackYears !== null ? fmtNum(paybackYears, 2) : 'ไม่คืนทุน'}</td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+
+    window.onload = calculateROI;
+
+    // ลงทะเบียน Service Worker สำหรับทำงานออฟไลน์
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('PWA Ready:', reg.scope))
+          .catch(err => console.error('PWA Error:', err));
+      });
+    }
+  </script>
+</body>
+</html>
