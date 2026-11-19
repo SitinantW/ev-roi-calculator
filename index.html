@@ -86,7 +86,7 @@
         <input type="number" id="platformFee" value="208.33" step="any">
       </div>
       <div class="form-group">
-        <label for="mpayFee">ค่าธรรมเนียมในการชำระเงิน (%)</label>
+        <label for="mpayFee">อัตราค่าธรรมเนียมการชำระเงิน (%)</label>
         <input type="number" id="mpayFee" value="1" step="any">
       </div>
     </div>
@@ -101,7 +101,7 @@
             <th>ชั่วโมง/วัน</th>
             <th>หน่วยไฟ/เดือน</th>
             <th>รายได้ (บาท)</th>
-            <th>หัก mPAY Fee</th>
+            <th>หัก ค่าธรรมเนียม</th>
             <th>กำไรสุทธิ/เดือน</th>
             <th>คืนทุน (ปี)</th>
           </tr>
@@ -130,11 +130,11 @@
       tbody.innerHTML = '';
 
       for (let hrs = 1; hrs <= 12; hrs++) {
-        const units = power * hrs * 30;
-        const revenue = units * sellPrice;
-        const mpayDeduction = revenue * mpayRate;
-        const totalElecCost = units * elecCost;
-        const netProfit = revenue - mpayDeduction - totalElecCost - platformFee;
+        const units = power * hrs * 30; //จำนวนกำลังไฟที่ขายได้ต่อเดือน = กำลังไฟเครื่องชาร์จ * จำนวนชั่วโมงที่ชาร์จ * 30 วัน
+        const revenue = units * sellPrice; //รายได้ค่าไฟต่อเดือน = จำนวนกำลังไฟที่ขายได้ต่อเดือน * ราคาขาย
+        const mpayDeduction = revenue * mpayRate; //ค่าธรรมเนียมต่อเดือน = รายได้ค่าไฟต่อเดือน * อัตราค่าธรรมเนียมการชำระเงิน
+        const totalElecCost = units * elecCost; //ต้นทุนค่าไฟต่อเดือน = จำนวนกำลังไฟที่ขายได้ต่อเดือน * ต้นทุนไฟ
+        const netProfit = revenue - mpayDeduction - totalElecCost - platformFee; //กำไขสุทธิต่อเดือน = รายได้ค่าไฟต่อเดือน - ค่าธรรมเนียมต่อเดือน - ต้นทุนค่าไฟต่อเดือน - ค่าบริการแฟลตฟอร์มต่อเดือน
         const paybackYears = netProfit > 0 ? (totalInvest / (netProfit * 12)) : null;
 
         const tr = document.createElement('tr');
