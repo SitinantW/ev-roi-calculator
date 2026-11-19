@@ -144,7 +144,7 @@
         const revenue = (units * sellPrice) * 12; 
         const totalAllCost = (totalElecCost * 12)+ platformFee + mpayDeduction; 
         const netProfit = revenue - totalAllCost; 
-        const roi = netProfit > 0 ? (netProfit / totalAllCost) * 100 : null;
+        const roi = (netProfit / totalAllCost) * 100
         const paybackYears = netProfit > 0 ? totalInvest / netProfit : null;
 
         const tr = document.createElement('tr');
