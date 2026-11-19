@@ -36,7 +36,7 @@
     button { width: 100%; margin-top: 20px; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; }
     button:hover { background: var(--primary-hover); }
     .table-wrapper { overflow-x: auto; margin-top: 16px; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: right; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: right; }
     th, td { padding: 10px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }
     th { background: var(--bg); font-weight: 600; text-align: right; }
     th:first-child, td:first-child { text-align: center; font-weight: bold; }
@@ -109,6 +109,7 @@
             <th>รายได้ (บาท)</th>
             <th>หัก ค่าธรรมเนียม</th>
             <th>กำไรสุทธิ/เดือน</th>
+            <th>ROI (%)</th>
             <th>คืนทุน (ปี)</th>
           </tr>
         </thead>
@@ -128,8 +129,11 @@
       const sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
       const platformFee = parseFloat(document.getElementById('platformFee').value) || 0;
       const mpayRate = (parseFloat(document.getElementById('mpayFee').value) || 0) / 100;
-
+      
       const totalInvest = equipCost + installCost;
+      const mpayDeduction = revenue * mpayRate;
+      const totalElecCost = units * elecCost;
+      
       document.getElementById('totalInvest').value = fmtNum(totalInvest, 0);
 
       const tbody = document.getElementById('resultBody');
@@ -138,9 +142,9 @@
       for (let hrs = 1; hrs <= 12; hrs++) {
         const units = power * hrs * 30; //จำนวนกำลังไฟที่ขายได้ต่อเดือน = กำลังไฟเครื่องชาร์จ * จำนวนชั่วโมงที่ชาร์จ * 30 วัน
         const revenue = units * sellPrice; //รายได้ค่าไฟต่อเดือน = จำนวนกำลังไฟที่ขายได้ต่อเดือน * ราคาขาย
-        const mpayDeduction = revenue * mpayRate; //ค่าธรรมเนียมต่อเดือน = รายได้ค่าไฟต่อเดือน * อัตราค่าธรรมเนียมการชำระเงิน
-        const totalElecCost = units * elecCost; //ต้นทุนค่าไฟต่อเดือน = จำนวนกำลังไฟที่ขายได้ต่อเดือน * ต้นทุนไฟ
+        const totalAllCost = totalElecCost + platformFee + mpayDeduction; //ต้นทุนทั้งหมดต่อเดือน = ต้นทุนค่าไฟต่อเดือน + ค่าบริการแฟลตฟอร์มต่อเดือน + ค่าธรรมเนียมต่อเดือน
         const netProfit = revenue - mpayDeduction - totalElecCost - platformFee; //กำไขสุทธิต่อเดือน = รายได้ค่าไฟต่อเดือน - ค่าธรรมเนียมต่อเดือน - ต้นทุนค่าไฟต่อเดือน - ค่าบริการแฟลตฟอร์มต่อเดือน
+        const roi = (netProfit - totalAllCost) / 100;
         const paybackYears = netProfit > 0 ? (totalInvest / (netProfit * 12)) : null;
 
         const tr = document.createElement('tr');
@@ -148,8 +152,9 @@
           <td>${hrs}</td>
           <td>${fmtNum(units, 0)}</td>
           <td>${fmtNum(revenue, 2)}</td>
-          <td>${fmtNum(mpayDeduction, 2)}</td>
+          <td>${fmtNum(totalAllCost, 2)}</td>
           <td class="${netProfit >= 0 ? 'profit-pos' : 'profit-neg'}">${fmtNum(netProfit, 2)}</td>
+          <td>${fmtNum(roi, 0)}</td>
           <td>${paybackYears !== null ? fmtNum(paybackYears, 2) : 'ไม่คืนทุน'}</td>
         `;
         tbody.appendChild(tr);
