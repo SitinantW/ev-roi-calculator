@@ -70,11 +70,11 @@
       </div>
     </div>
 
-    <h3>โครงสร้างราคา & แพลตฟอร์ม (ราคา Inc.Vat)</h3>
+    <h3>โครงสร้างราคา & แพลตฟอร์ม</h3>
     <div class="grid">
       <div class="form-group">
-        <label for="elecCost">ต้นทุนไฟ [ปกติ:4.905, Low:3.294] (บาท/หน่วย)</label>
-        <label">ปกติ:4.905, Low Priority:3.294 (บาท/หน่วย)</label>
+        <label for="elecCost">ต้นทุนไฟ + FT 0.1623 (บาท/หน่วย)</label>
+        <label">Normal:4.905, Low Priority:3.294 (บาท/หน่วย)</label>
         <input type="number" id="elecCost" value="3.294" step="any">
       </div>
       <div class="form-group">
@@ -129,7 +129,7 @@
       const tbody = document.getElementById('resultBody');
       tbody.innerHTML = '';
 
-      for (let hrs = 1; hrs <= 12; hrs++) {
+      for (let hrs = 2; hrs <= 24; hrs+2) {
         const units = power * hrs * 30;
         const revenue = units * sellPrice;
         const mpayDeduction = revenue * mpayRate;
