@@ -144,7 +144,7 @@
         const revenue = (units * sellPrice) * 12; 
         const totalAllCost = ((units * elecCost) * 12)+ platformFee + (revenue * mpayRate); 
         const netProfit = revenue - totalAllCost; 
-        const roi = netProfit > 0 ? (netProfit / totalAllCost) * 100 : null;
+        const roi = netProfit > 0 ? (netProfit / totalInvest) * 100 : null;
         const paybackYears = netProfit > 0 ? totalInvest / netProfit : null;
 
         const tr = document.createElement('tr');
@@ -177,7 +177,7 @@
   <h4>[รายได้(บาท)/ปี] = ([หน่วยไฟฟ้า(kWh)/เดือน] * [ราคาขาย(บาท/หน่วย)]) * 12</h4>
   <h4>[ค่าใช้จ่าย(บาท)/ปี] = [(ต้นทุนค่าไฟ(บาท)/ปี] + [ค่าบริการแฟลตฟอร์ม(บาท)/ปี] + [ค่าธรรมเนียมการชำระเงิน(บาท)/ปี]</h4>
   <h4>[กำไรสุทธิ(บาท)/ปี] = [รายได้(บาท)/ปี] - [ค่าใช้จ่าย(บาท)/ปี]</h4>
-  <h4>ROI(%) = ([กำไรสุทธิ(บาท)/ปี] / [ค่าใช้จ่าย(บาท)/ปี]) * 100</h4>
+  <h4>ROI(%) = ([กำไรสุทธิ(บาท)/ปี] / [ยอดรวมเงินลงทุน(บาท)]) * 100</h4>
   <h4>คืนทุน(ปี) = [ยอดรวมเงินลงทุน(บาท)] / [กำไรสุทธิ(บาท)/ปี]</h4>
 
 </body>
