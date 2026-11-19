@@ -131,8 +131,8 @@
       const mpayRate = (parseFloat(document.getElementById('mpayFee').value) || 0) / 100;
       
       const totalInvest = equipCost + installCost;
-      const mpayDeduction = revenue * mpayRate;
-      const totalElecCost = units * elecCost;
+      //const mpayDeduction = revenue * mpayRate;
+      //const totalElecCost = units * elecCost;
       
       document.getElementById('totalInvest').value = fmtNum(totalInvest, 0);
 
@@ -142,9 +142,9 @@
       for (let hrs = 1; hrs <= 12; hrs++) {
         const units = power * hrs * 30; //จำนวนกำลังไฟที่ขายได้ต่อเดือน = กำลังไฟเครื่องชาร์จ * จำนวนชั่วโมงที่ชาร์จ * 30 วัน
         const revenue = units * sellPrice; //รายได้ค่าไฟต่อเดือน = จำนวนกำลังไฟที่ขายได้ต่อเดือน * ราคาขาย
-        const totalAllCost = totalElecCost + platformFee + mpayDeduction; //ต้นทุนทั้งหมดต่อเดือน = ต้นทุนค่าไฟต่อเดือน + ค่าบริการแฟลตฟอร์มต่อเดือน + ค่าธรรมเนียมต่อเดือน
-        const netProfit = revenue - mpayDeduction - totalElecCost - platformFee; //กำไขสุทธิต่อเดือน = รายได้ค่าไฟต่อเดือน - ค่าธรรมเนียมต่อเดือน - ต้นทุนค่าไฟต่อเดือน - ค่าบริการแฟลตฟอร์มต่อเดือน
-        const roi = (netProfit - totalAllCost) / 100;
+        const totalAllCost = (units * elecCost) + platformFee + (revenue * mpayRate); //ต้นทุนทั้งหมดต่อเดือน = ต้นทุนค่าไฟต่อเดือน + ค่าบริการแฟลตฟอร์มต่อเดือน + ค่าธรรมเนียมต่อเดือน
+        const netProfit = revenue - totalAllCost; //กำไขสุทธิต่อเดือน = รายได้ค่าไฟต่อเดือน - ค่าธรรมเนียมต่อเดือน - ต้นทุนค่าไฟต่อเดือน - ค่าบริการแฟลตฟอร์มต่อเดือน
+        const roi = (netProfit / totalAllCost) * 100;
         const paybackYears = netProfit > 0 ? (totalInvest / (netProfit * 12)) : null;
 
         const tr = document.createElement('tr');
