@@ -142,8 +142,8 @@
       for (let hrs = 1; hrs <= 12; hrs++) {
         const units = power * hrs * 30; //จำนวนกำลังไฟที่ขายได้ต่อเดือน = กำลังไฟเครื่องชาร์จ * จำนวนชั่วโมงที่ชาร์จ * 30 วัน
         const revenue = (units * sellPrice) * 12; //รายได้ค่าไฟต่อเดือน = จำนวนกำลังไฟที่ขายได้ต่อเดือน * ราคาขาย
-        const totalAllCost = ((units * elecCost) + platformFee + (revenue * mpayRate)) * 12; //ต้นทุนทั้งหมดต่อเดือน = ต้นทุนค่าไฟต่อเดือน + ค่าบริการแฟลตฟอร์มต่อเดือน + ค่าธรรมเนียมต่อเดือน
-        const netProfit = (revenue - totalAllCost) * 12; //กำไขสุทธิต่อเดือน = รายได้ค่าไฟต่อเดือน - ค่าธรรมเนียมต่อเดือน - ต้นทุนค่าไฟต่อเดือน - ค่าบริการแฟลตฟอร์มต่อเดือน
+        const totalAllCost = (units * elecCost) + platformFee + (revenue * mpayRate); //ต้นทุนทั้งหมดต่อเดือน = ต้นทุนค่าไฟต่อเดือน + ค่าบริการแฟลตฟอร์มต่อเดือน + ค่าธรรมเนียมต่อเดือน
+        const netProfit = revenue - totalAllCost; //กำไขสุทธิต่อเดือน = รายได้ค่าไฟต่อเดือน - ค่าธรรมเนียมต่อเดือน - ต้นทุนค่าไฟต่อเดือน - ค่าบริการแฟลตฟอร์มต่อเดือน
         const roi = (netProfit / totalAllCost) * 100;
         const paybackYears = netProfit > 0 ? totalInvest / netProfit : null;
 
