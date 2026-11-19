@@ -49,39 +49,39 @@
     <h3>by Powermatic Co.,Ltd.</h3>
     <h2>เครื่องมือวิเคราะห์จุดคุ้มทุน EV Station</h2>
 
-    <h3>ข้อมูลเครื่องชาร์จ</h3>
+    <h3>ข้อมูลเครื่องชาร์จ EV</h3>
     <div class="grid">
       <div class="form-group">
         <label for="power">กำลังไฟฟ้า (kW)</label>
-        <input type="number" id="power" value="22" step="any">
+        <input type="number" id="power" value="60" step="any">
       </div>
       <div class="form-group">
         <label for="equipCost">ราคาเครื่อง (บาท)</label>
-        <input type="number" id="equipCost" value="150000" step="any">
+        <input type="number" id="equipCost" value="400,000" step="any">
       </div>
       <div class="form-group">
-        <label for="installCost">ค่าดำเนินการเปิดสถานี (บาท)</label>
-        <input type="number" id="installCost" value="100" step="any">
+        <label for="installCost">ค่าดำเนินการเปิดสถานี (บาท inc.vat)</label>
+        <input type="number" id="installCost" value="220,000" step="any">
       </div>
       <div class="form-group">
-        <label for="totalInvest">ยอดรวมเงินลงทุน (บาท)</label>
-        <input type="text" id="totalInvest" value="150,100" readonly>
+        <label for="totalInvest">ยอดรวมเงินลงทุน (บาท inc.vat)</label>
+        <input type="text" id="totalInvest" value="620,000" readonly>
       </div>
     </div>
 
     <h3>โครงสร้างราคา & แพลตฟอร์ม</h3>
     <div class="grid">
       <div class="form-group">
-        <label for="elecCost">ต้นทุนไฟ Low Priotity + FT (บาท/หน่วย)</label>
+        <label for="elecCost">ต้นทุนไฟ [ปกติ:4.905, Low:3.294] (บาท inc.vat/หน่วย)</label>
         <input type="number" id="elecCost" value="3.294" step="any">
       </div>
       <div class="form-group">
-        <label for="sellPrice">ราคาขาย (บาท/หน่วย)</label>
-        <input type="number" id="sellPrice" value="9" step="any">
+        <label for="sellPrice">ราคาขาย (บาท inc.vat/หน่วย)</label>
+        <input type="number" id="sellPrice" value="7" step="any">
       </div>
       <div class="form-group">
-        <label for="platformFee">ค่าบริการแฟลตฟอร์ม (บาท/เดือน)</label>
-        <input type="number" id="platformFee" value="200" step="any">
+        <label for="platformFee">ค่าบริการแฟลตฟอร์ม (บาท inc.vat/เดือน)</label>
+        <input type="number" id="platformFee" value="208.33" step="any">
       </div>
       <div class="form-group">
         <label for="mpayFee">ค่าธรรมเนียมในการชำระเงิน (%)</label>
