@@ -144,7 +144,7 @@
         const revenue = (units * sellPrice) * 12; 
         const totalAllCost = ((units * elecCost) * 12)+ platformFee + (revenue * mpayRate); 
         const netProfit = revenue - totalAllCost; 
-        const roi = (netProfit / totalAllCost) * 100
+        const roi = netProfit > 0 ? (netProfit / totalAllCost) * 100 : null;
         const paybackYears = netProfit > 0 ? totalInvest / netProfit : null;
 
         const tr = document.createElement('tr');
@@ -154,7 +154,7 @@
           <td>${fmtNum(revenue, 2)}</td>
           <td>${fmtNum(totalAllCost, 2)}</td>
           <td class="${netProfit >= 0 ? 'profit-pos' : 'profit-neg'}">${fmtNum(netProfit, 2)}</td>
-          <td>${fmtNum(roi, 2)}</td>
+          <td>${roi !== null ? fmtNum(roi, 2) : '0'}</td>
           <td>${paybackYears !== null ? fmtNum(paybackYears, 2) : 'ไม่คืนทุน'}</td>
         `;
         tbody.appendChild(tr);
