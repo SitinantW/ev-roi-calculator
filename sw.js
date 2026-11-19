@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ev-roi-pwa-v28';
+const CACHE_NAME = 'ev-roi-pwa-v29';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
