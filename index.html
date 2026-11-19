@@ -131,8 +131,8 @@
       const mpayRate = (parseFloat(document.getElementById('mpayFee').value) || 0) / 100;
       
       const totalInvest = equipCost + installCost;
-      const mpayDeduction = revenue * mpayRate;
-      const totalElecCost = units * elecCost;
+      //const mpayDeduction = revenue * mpayRate;
+      //const totalElecCost = units * elecCost;
       
       document.getElementById('totalInvest').value = fmtNum(totalInvest, 0);
 
@@ -142,7 +142,7 @@
       for (let hrs = 1; hrs <= 12; hrs++) {
         const units = power * hrs * 30; 
         const revenue = (units * sellPrice) * 12; 
-        const totalAllCost = (totalElecCost * 12)+ platformFee + mpayDeduction; 
+        const totalAllCost = ((units * elecCost) * 12)+ platformFee + (revenue * mpayRate); 
         const netProfit = revenue - totalAllCost; 
         const roi = (netProfit / totalAllCost) * 100
         const paybackYears = netProfit > 0 ? totalInvest / netProfit : null;
@@ -172,5 +172,13 @@
       });
     }
   </script>
+  <h3>อธิบายสูตรคำนวณตารางวิเคราะห์รายได้และจุดคุ้มทุน</h3>
+  <h4>[หน่วยไฟฟ้า(kWh)/เดือน] = [กำลังไฟฟ้า(kW)] * [ชั่วโมงชาร์จ/เดือน]</h4>
+  <h4>[รายได้(บาท)/ปี] = ([หน่วยไฟฟ้า(kWh)/เดือน] * [ราคาขาย(บาท/หน่วย)]) * 12</h4>
+  <h4>[ค่าใช้จ่าย(บาท)/ปี] = [(ต้นทุนค่าไฟ(บาท)/ปี] + [ค่าบริการแฟลตฟอร์ม(บาท)/ปี] + [ค่าธรรมเนียมการชำระเงิน(บาท)/ปี]</h4>
+  <h4>[กำไรสุทธิ(บาท)/ปี] = [รายได้(บาท)/ปี] - [ค่าใช้จ่าย(บาท)/ปี]</h4>
+  <h4>ROI(%) = ([กำไรสุทธิ(บาท)/ปี] / [ค่าใช้จ่าย(บาท)/ปี]) * 100</h4>
+  <h4>คืนทุน(ปี) = [ยอดรวมเงินลงทุน(บาท)] / [กำไรสุทธิ(บาท)/ปี]</h4>
+
 </body>
 </html>
