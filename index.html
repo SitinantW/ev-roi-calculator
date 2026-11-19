@@ -142,7 +142,7 @@
       for (let hrs = 1; hrs <= 12; hrs++) {
         const units = power * hrs * 30; 
         const revenue = (units * sellPrice) * 12; 
-        const totalAllCost = ((units * elecCost) * 12) + totalInvest + platformFee + (revenue * mpayRate); 
+        const totalAllCost = ((units * elecCost) * 12)+ platformFee + (revenue * mpayRate); 
         const netProfit = revenue - totalAllCost; 
         const roi = (netProfit / totalAllCost) * 100;
         const paybackYears = netProfit > 0 ? totalInvest / netProfit : null;
